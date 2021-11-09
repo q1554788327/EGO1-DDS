@@ -24,7 +24,7 @@ module top(
     input clk,      //100MHz时钟信号输入端
     input [7:0] k,      //8位拨动开关输入端
     input [3:0] sw,     //8位小拨动开关
-    input [4:0] init,      //初始化DA芯片
+    output [4:0] init,      //初始化DA芯片
     output [7:0] spo,       //输出的波形
     output wire [3:0] dis_duan,     //右端4位段选信号
     output wire [6:0] dis_wei,      //右端4位位选信号
@@ -34,6 +34,7 @@ module top(
     
     wire signal;        //10kHz时钟信号
     wire signal_1;      //0.5Hz时钟信号
+    wire [7:0] in;      //中间变量承载波形
     wire [7:0] address;     //ROM地址
     wire [15:0] bcd;        //理论值的十进制BCD码
     wire [15:0] bcd_1;      //实际值的十进制BCD码
@@ -59,13 +60,14 @@ module top(
 
     //顶层调用开关选择波形
     switch s0(
-        .address(adress),
-        .spo(spo),
+        .address(address),
+        .spo(in),
         .sw(sw)
     );
 
     //顶层调用数模转换模块
     DA D0(
+        .in(in),
         .init(init),
         .spo(spo)
     );
