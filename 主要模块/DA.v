@@ -21,10 +21,15 @@
 
 //数模转换模块，输出波形
 module DA(
-    input [4:0] init,       //输入初始化的端口
-    output wire [7:0] spo       //输出波形
+    input [7:0] in,
+    output reg [4:0] init,       //输入初始化的端口
+    output reg [7:0] spo       //输出波形
     );
 
-    assign init = 5'b10000;
+    always @(*) begin
+        spo <= in;
+    end
+
+    reg [4:0] init = 5'b10000;
 
 endmodule
